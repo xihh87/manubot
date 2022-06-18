@@ -50,7 +50,7 @@ _keep_bioregistry_fields = {
     "synonyms",
 }
 
-
+default_timeout = 3
 bioregistry_path = pathlib.Path(__file__).parent.joinpath("bioregistry.json")
 
 
@@ -111,7 +111,7 @@ def _download_bioregistry() -> None:
     import requests
 
     url = "https://github.com/biopragmatics/bioregistry/raw/main/exports/registry/registry.json"
-    response = requests.get(url)
+    response = requests.get(url, timeout=default_timeout)
     response.raise_for_status()
     results = response.json()
     assert isinstance(results, dict)

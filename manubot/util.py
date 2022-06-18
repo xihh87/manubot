@@ -11,6 +11,8 @@ import sys
 import typing
 from types import ModuleType
 
+default_timeout = 3
+
 if typing.TYPE_CHECKING:
     # allow type annotations of lazy-imported packages
     import yaml
@@ -85,7 +87,7 @@ def read_serialized_data(path: str):
     suffixes = set(path_obj.suffixes)
     if is_http_url(path_str):
         headers = {"User-Agent": get_manubot_user_agent()}
-        response = requests.get(path_str, headers=headers)
+        response = requests.get(path_str, headers=headers, timeout=default_timeout)
         if not suffixes & supported_suffixes:
             # if URL has no supported suffixes, evaluate suffixes of final redirect
             suffixes = set(pathlib.Path(response.url).suffixes)
