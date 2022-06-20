@@ -50,7 +50,7 @@ _keep_bioregistry_fields = {
     "synonyms",
 }
 
-default_timeout = 3
+default_timeout = (3, 15)
 bioregistry_path = pathlib.Path(__file__).parent.joinpath("bioregistry.json")
 
 

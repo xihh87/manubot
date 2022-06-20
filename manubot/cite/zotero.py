@@ -24,7 +24,7 @@ CSLItems = ZoteroData
 base_url = "https://translate.manubot.org"
 """URL that provides access to the Zotero translation-server API"""
 
-default_timeout = 3
+default_timeout = (3, 15)
 
 
 def web_query(url: str, timeout_seconds: int = default_timeout) -> ZoteroData:

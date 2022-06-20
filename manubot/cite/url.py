@@ -7,7 +7,7 @@ from .handlers import Handler
 
 CSLItem = Dict[str, Any]
 
-default_timeout = 3
+default_timeout = (3, 15)
 
 
 class Handler_URL(Handler):

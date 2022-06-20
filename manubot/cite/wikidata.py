@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from .handlers import Handler
 
-default_timeout = 3
+default_timeout = (3, 15)
 
 
 class Handler_Wikidata(Handler):

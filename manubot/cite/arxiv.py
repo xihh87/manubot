@@ -9,7 +9,7 @@ from manubot.util import get_manubot_user_agent
 from .csl_item import CSL_Item
 from .handlers import Handler
 
-default_timeout = 3
+default_timeout = (3, 15)
 
 
 class Handler_arXiv(Handler):

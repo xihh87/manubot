@@ -12,7 +12,7 @@ Unpaywall license choices used by Location.has_open_license.
 Defaults to licenses that conform to <https://opendefinition.org/>.
 """
 open_licenses = {"cc0", "cc-by", "cc-by-sa", "pd"}
-default_timeout = 3
+default_timeout = (3, 15)
 
 
 class Unpaywall:
