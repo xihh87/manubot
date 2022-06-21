@@ -37,6 +37,14 @@ def parse_arguments():
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
             help="Set the logging level for stderr logging",
         )
+        subparser.add_argument(
+            "-t",
+            "--timeout",
+            dest="timeout_seconds",
+            default="3",
+            type=int,
+            help="timeout for web requests in seconds",
+        )
     args = parser.parse_args()
     return args
 
