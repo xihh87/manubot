@@ -1,5 +1,6 @@
 import logging
 import re
+import typing as tp
 import xml.etree.ElementTree
 
 import requests
@@ -27,7 +28,11 @@ class Handler_arXiv(Handler):
         if not self._get_pattern().fullmatch(citekey.accession):
             return "arXiv identifiers must conform to syntax described at https://arxiv.org/help/arxiv_identifier."
 
-    def get_csl_item(self, citekey, timeout_seconds: int = default_timeout):
+    def get_csl_item(
+        self,
+        citekey,
+        timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout,
+    ):
         return get_arxiv_csl_item(
             citekey.standard_accession, timeout_seconds=default_timeout
         )
@@ -68,7 +73,9 @@ def split_arxiv_id_version(arxiv_id: str):
     return match.group("versionless_id"), match.group("version")
 
 
-def get_arxiv_csl_item(arxiv_id: str, timeout_seconds: int = default_timeout):
+def get_arxiv_csl_item(
+    arxiv_id: str, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     """
     Return csl_item item for an arXiv identifier.
     Chooses which arXiv API to use based on whether arxiv_id
@@ -80,7 +87,9 @@ def get_arxiv_csl_item(arxiv_id: str, timeout_seconds: int = default_timeout):
     return get_arxiv_csl_item_oai(arxiv_id, timeout_seconds=timeout_seconds)
 
 
-def query_arxiv_api(url, params, timeout_seconds: int = default_timeout):
+def query_arxiv_api(
+    url, params, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     headers = {"User-Agent": get_manubot_user_agent()}
     response = requests.get(url, params, headers=headers, timeout=timeout_seconds)
     response.raise_for_status()
@@ -88,7 +97,9 @@ def query_arxiv_api(url, params, timeout_seconds: int = default_timeout):
     return xml_tree
 
 
-def get_arxiv_csl_item_export_api(arxiv_id, timeout_seconds: int = default_timeout):
+def get_arxiv_csl_item_export_api(
+    arxiv_id, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     """
     Return csl_item item for an arXiv record.
 
@@ -161,7 +172,9 @@ def get_arxiv_csl_item_export_api(arxiv_id, timeout_seconds: int = default_timeo
     return csl_item
 
 
-def get_arxiv_csl_item_oai(arxiv_id, timeout_seconds: int = default_timeout):
+def get_arxiv_csl_item_oai(
+    arxiv_id, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     """
     Generate a CSL Item for an unversioned arXiv identifier
     using arXiv's OAI_PMH v2.0 API <https://arxiv.org/help/oa>.
@@ -242,7 +255,9 @@ def remove_newlines(text):
     return re.sub(pattern=r"\n(?!\s)", repl=" ", string=text)
 
 
-def get_arxiv_csl_item_zotero(arxiv_id, timeout_seconds: int = default_timeout):
+def get_arxiv_csl_item_zotero(
+    arxiv_id, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     """
     Generate CSL JSON Data for an arXiv ID using Zotero's translation-server.
     """
