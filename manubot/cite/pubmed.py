@@ -37,8 +37,12 @@ class Handler_PubMed(Handler):
         elif not self._get_pattern().fullmatch(identifier):
             return "PubMed Identifiers should be 1-8 digits with no leading zeros."
 
-    def get_csl_item(self, citekey: CiteKey) -> Dict[str, Any]:
-        return get_pubmed_csl_item(citekey.standard_accession)
+    def get_csl_item(
+        self, citekey: CiteKey, timeout_seconds=default_timeout
+    ) -> Dict[str, Any]:
+        return get_pubmed_csl_item(
+            citekey.standard_accession, timeout_seconds=timeout_seconds
+        )
 
 
 class Handler_PMC(Handler):
@@ -129,7 +133,8 @@ def _get_literature_citation_exporter_csl_item(
 
 
 def get_pubmed_csl_item(
-    pmid: Union[str, int], timeout_seconds: int = default_timeout
+    pmid: Union[str, int],
+    timeout_seconds: Union[tuple, int, float, None] = default_timeout,
 ) -> Dict[str, Any]:
     """
     Query NCBI E-Utilities to create CSL Items for PubMed IDs.

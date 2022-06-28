@@ -59,8 +59,10 @@ class Handler_DOI(Handler):
         accession = accession.lower()
         return self.standard_prefix, accession
 
-    def get_csl_item(self, citekey):
-        return get_doi_csl_item(citekey.standard_accession)
+    def get_csl_item(self, citekey, timeout_seconds=default_timeout):
+        return get_doi_csl_item(
+            citekey.standard_accession, timeout_seconds=timeout_seconds
+        )
 
 
 def expand_short_doi(short_doi: str, timeout_seconds: int = default_timeout) -> str:

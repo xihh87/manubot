@@ -4,7 +4,7 @@ import re
 
 from .handlers import Handler
 
-default_timeout = 3
+default_timeout = (3.05, 15)
 
 
 def set_isbnlib_timeout(seconds=default_timeout):
@@ -24,7 +24,7 @@ class Handler_ISBN(Handler):
     ]
 
     def inspect(self, citekey, timeout_seconds: int = default_timeout):
-        isbnlib = set_isbnlib_timeout(timeout_seconds)
+        isbnlib = set_isbnlib_timeout(timeout_seconds[0])
 
         fail = isbnlib.notisbn(citekey.accession, level="strict")
         if fail:
@@ -36,7 +36,8 @@ class Handler_ISBN(Handler):
         accession = to_isbn13(accession)
         return self.standard_prefix, accession
 
-    def get_csl_item(self, citekey, timeout_seconds: int = default_timeout):
+    def get_csl_item(self, citekey, timeout_seconds: int = default_timeout[0]):
+
         return get_isbn_csl_item(
             citekey.standard_accession, timeout_seconds=timeout_seconds
         )
@@ -51,7 +52,7 @@ def get_isbn_csl_item(isbn: str, timeout_seconds: int = default_timeout):
     in order, with this function returning the metadata from the first
     non-failing method.
     """
-    isbnlib = set_isbnlib_timeout(default_timeout)
+    isbnlib = set_isbnlib_timeout(default_timeout[0])
 
     isbn = isbnlib.to_isbn13(isbn)
     for retriever in isbn_retrievers:
@@ -75,7 +76,9 @@ def get_isbn_csl_item_zotero(isbn: str, timeout_seconds: int = default_timeout):
     return get_csl_item(f"isbn:{isbn}", timeout_seconds=timeout_seconds)
 
 
-def get_isbn_csl_item_citoid(isbn: str, timeout_seconds: int = default_timeout):
+def get_isbn_csl_item_citoid(
+    isbn: str, timeout_seconds: tp.Union[tuple, int, float, None] = default_timeout
+):
     """
     Return CSL JSON Data for an ISBN using the Wikipedia Citoid API.
     https://en.wikipedia.org/api/rest_v1/#!/Citation/getCitation
@@ -141,7 +144,7 @@ def get_isbn_csl_item_isbnlib(isbn: str, timeout_seconds: int = default_timeout)
     """
     Generate CSL JSON Data for an ISBN using isbnlib.
     """
-    isbnlib = set_isbnlib_timeout(timeout_seconds)
+    isbnlib = set_isbnlib_timeout(timeout_seconds[0])
     metadata = isbnlib.meta(isbn)
     csl_json = isbnlib.registry.bibformatters["csl"](metadata)
     csl_data = json.loads(csl_json)
