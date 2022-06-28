@@ -9,7 +9,7 @@ https://github.com/manubot/manubot/issues/82.
 
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 import requests
 
@@ -27,7 +27,9 @@ base_url = "https://translate.manubot.org"
 default_timeout = (3, 15)
 
 
-def web_query(url: str, timeout_seconds: int = default_timeout) -> ZoteroData:
+def web_query(
+    url: str, timeout_seconds: Union[tuple, int, float, None] = default_timeout
+) -> ZoteroData:
     """
     Return Zotero citation metadata for a URL as a list containing a single element that
     is a dictionary with the URL's metadata.
@@ -56,7 +58,9 @@ def web_query(url: str, timeout_seconds: int = default_timeout) -> ZoteroData:
     return zotero_data
 
 
-def search_query(identifier: str, timeout_seconds: int = default_timeout) -> ZoteroData:
+def search_query(
+    identifier: str, timeout_seconds: Union[tuple, int, float, None] = default_timeout
+) -> ZoteroData:
     """
     Retrive Zotero metadata for a DOI, ISBN, PMID, or arXiv ID.
     Example usage:
@@ -100,7 +104,8 @@ def _passthrough_zotero_data(zotero_data: ZoteroData) -> ZoteroData:
 
 
 def export_as_csl(
-    zotero_data: ZoteroData, timeout_seconds: int = default_timeout
+    zotero_data: ZoteroData,
+    timeout_seconds: Union[tuple, int, float, None] = default_timeout,
 ) -> CSLItems:
     """
     Export Zotero JSON data to CSL JSON using a translation-server /export query.
@@ -134,7 +139,9 @@ def export_as_csl(
     return csl_items
 
 
-def get_csl_item(identifier: str, timeout_seconds: int = default_timeout) -> CSLItem:
+def get_csl_item(
+    identifier: str, timeout_seconds: Union[tuple, int, float, None] = default_timeout
+) -> CSLItem:
     """
     Use a translation-server search query followed by an export query
     to return a CSL Item (the first & only record of the returned CSL JSON).
@@ -146,7 +153,7 @@ def get_csl_item(identifier: str, timeout_seconds: int = default_timeout) -> CSL
 
 
 def search_or_web_query(
-    identifier: str, timeout_seconds: int = default_timeout
+    identifier: str, timeout_seconds: Union[tuple, int, float, None] = default_timeout
 ) -> ZoteroData:
     """
     Detect whether `identifier` is a URL. If so,
