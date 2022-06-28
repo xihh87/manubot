@@ -41,8 +41,7 @@ def parse_arguments():
             "-t",
             "--timeout",
             dest="timeout_seconds",
-            default="3",
-            type=int,
+            default=(3, 15),
             help="timeout for web requests in seconds",
         )
     args = parser.parse_args()
