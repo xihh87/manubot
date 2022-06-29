@@ -11,7 +11,7 @@ import sys
 import typing
 from types import ModuleType
 
-default_timeout = (3, 15)
+default_timeout = (3, 27)
 
 if typing.TYPE_CHECKING:
     # allow type annotations of lazy-imported packages
@@ -72,9 +72,11 @@ def is_http_url(string: str) -> bool:
     return parsed_url.scheme in _http_url_schemes
 
 
-def read_serialized_data(path: str, timeout_seconds: int = default_timeout):
+def read_serialized_data(
+    path: str, timeout_seconds: typing.Union[tuple, int, float, None] = default_timeout
+):
     """
-    Read seralized data from a local file path or web-address.
+    Read serialized data from a local file path or web-address.
     If file format extension is not detected in path, assumes JSON.
     If a URL does not contain the appropriate suffix, one workaround
     is to hack the fragment like https://example.org#/variables.toml
